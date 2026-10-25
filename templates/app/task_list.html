@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de tareas{% endblock %}
+
+{% block content %}
+<h1>Lista de tareas</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Agregar tarea</button>
+</form>
+<ul>
+    {% for task in tasks %}
+    <li>
+        {% if task.completed %}<del>{{ task.title }}</del>{% else %}{{ task.title }}{% endif %}
+        <a href="{% url 'task-update' task.pk %}">Editar</a>
+        <a href="{% url 'task-delete' task.pk %}">Eliminar</a>
+    </li>
+    {% empty %}
+    <li>No hay tareas todavía.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
