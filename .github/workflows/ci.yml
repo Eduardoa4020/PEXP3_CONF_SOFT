@@ -2,7 +2,7 @@ name: Django CI
 
 on:
   push:
-    branches: ["main", "ci-setup"]
+    branches: ["main", "ci-setup", "feat/**"]
   pull_request:
     branches: ["main"]
 
@@ -55,3 +55,17 @@ jobs:
           POSTGRES_HOST: 127.0.0.1
           POSTGRES_PORT: 5432
         run: python manage.py test
+
+      - name: Build Docker image
+        run: docker build -t django-app:latest .
+
+      - name: Save Docker image
+        run: docker save django-app:latest | gzip > django-app.tar.gz
+
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: django-app-image
+          path: django-app.tar.gz
+          if-no-files-found: error
+          retention-days: 7
