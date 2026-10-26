@@ -1,12 +1,14 @@
+{% load static %}
 <!doctype html>
 <html lang="es">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Tareas{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'app/styles.css' %}">
 </head>
 <body>
-    <main>
+    <main class="page-shell">
         {% block content %}{% endblock %}
     </main>
 </body>

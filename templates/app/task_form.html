@@ -3,11 +3,19 @@
 {% block title %}Editar tarea{% endblock %}
 
 {% block content %}
-<h1>Editar tarea</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
-</form>
-<a href="{% url 'task-list' %}">Cancelar</a>
+<header class="page-header">
+    <p class="eyebrow">ACTUALIZAR</p>
+    <h1>Editar tarea</h1>
+    <p class="page-intro">Haz los cambios que necesites y guarda al terminar.</p>
+</header>
+<section class="panel form-panel">
+    <form method="post" class="task-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-actions">
+            <button type="submit">Guardar cambios</button>
+            <a class="button button-secondary" href="{% url 'task-list' %}">Cancelar</a>
+        </div>
+    </form>
+</section>
 {% endblock %}

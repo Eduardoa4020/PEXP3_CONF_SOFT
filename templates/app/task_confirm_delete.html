@@ -3,11 +3,17 @@
 {% block title %}Eliminar tarea{% endblock %}
 
 {% block content %}
-<h1>Eliminar tarea</h1>
-<p>¿Deseas eliminar "{{ task.title }}"?</p>
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Sí, eliminar</button>
-</form>
-<a href="{% url 'task-list' %}">Cancelar</a>
+<header class="page-header">
+    <p class="eyebrow">CONFIRMACIÓN</p>
+    <h1>Eliminar tarea</h1>
+    <p class="page-intro">Esta acción no se puede deshacer.</p>
+</header>
+<section class="panel confirm-panel">
+    <p class="confirm-copy">¿Deseas eliminar <strong>“{{ task.title }}”</strong>?</p>
+    <form method="post" class="form-actions">
+        {% csrf_token %}
+        <button class="button-danger" type="submit">Sí, eliminar</button>
+        <a class="button button-secondary" href="{% url 'task-list' %}">Cancelar</a>
+    </form>
+</section>
 {% endblock %}
