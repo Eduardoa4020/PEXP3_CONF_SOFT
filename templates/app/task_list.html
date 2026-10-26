@@ -3,21 +3,45 @@
 {% block title %}Lista de tareas{% endblock %}
 
 {% block content %}
-<h1>Lista de tareas</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Agregar tarea</button>
-</form>
-<ul>
-    {% for task in tasks %}
-    <li>
-        {% if task.completed %}<del>{{ task.title }}</del>{% else %}{{ task.title }}{% endif %}
-        <a href="{% url 'task-update' task.pk %}">Editar</a>
-        <a href="{% url 'task-delete' task.pk %}">Eliminar</a>
-    </li>
-    {% empty %}
-    <li>No hay tareas todavía.</li>
-    {% endfor %}
-</ul>
+<header class="page-header">
+    <p class="eyebrow">TU ESPACIO DE TRABAJO</p>
+    <h1>Mis tareas</h1>
+    <p class="page-intro">Un paso a la vez. Organiza lo que tienes por hacer.</p>
+</header>
+
+<section class="panel add-panel" aria-labelledby="add-task-title">
+    <h2 id="add-task-title">Agregar una tarea</h2>
+    <form method="post" class="task-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Agregar tarea <span aria-hidden="true">+</span></button>
+    </form>
+</section>
+
+<section class="task-section" aria-labelledby="task-list-title">
+    <div class="section-heading">
+        <h2 id="task-list-title">Pendientes y completadas</h2>
+        <span class="task-count">{{ tasks|length }} en total</span>
+    </div>
+    <ul class="task-list">
+        {% for task in tasks %}
+        <li class="task-item{% if task.completed %} is-complete{% endif %}">
+            <div class="task-copy">
+                <span class="task-marker" aria-hidden="true">{% if task.completed %}✓{% endif %}</span>
+                <span class="task-title">{% if task.completed %}<del>{{ task.title }}</del>{% else %}{{ task.title }}{% endif %}</span>
+            </div>
+            <div class="task-actions">
+                <a class="action-link" href="{% url 'task-update' task.pk %}">Editar</a>
+                <a class="action-link delete-link" href="{% url 'task-delete' task.pk %}">Eliminar</a>
+            </div>
+        </li>
+        {% empty %}
+        <li class="empty-state">
+            <span class="empty-icon" aria-hidden="true">✳</span>
+            <p>Aún no hay tareas</p>
+            <span>Agrega una arriba y aparecerá aquí.</span>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
 {% endblock %}
